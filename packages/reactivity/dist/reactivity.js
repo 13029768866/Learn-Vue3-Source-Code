@@ -3,7 +3,7 @@ var isObject = (value) => {
   return value !== null && typeof value === "object";
 };
 
-// packages/reactivity/src/index.ts
+// packages/reactivity/src/reactive.ts
 var proxyMap = /* @__PURE__ */ new WeakMap();
 var ReactiveFlags = /* @__PURE__ */ ((ReactiveFlags2) => {
   ReactiveFlags2["IS_REACTIVE"] = "__v_isReactive";
@@ -27,7 +27,7 @@ function reactive(target) {
       return Reflect.set(target2, key, value, receiver);
     }
   });
-  proxy.set(target, proxy);
+  proxyMap.set(target, proxy);
   return proxy;
 }
 export {
