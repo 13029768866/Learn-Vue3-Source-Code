@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>my-reactive测试</title>
+</head>
+<body>
+    <script type="module">
+        import { reactive } from './reactivity.js';
+
+        const obj = { name: 'wzj', age: 18 };
+        const r1 = reactive(obj);
+        const r2 = reactive(obj);
+        // 验证同一个对象代理两次
+        console.log(r1 === r2);
+
+
+
+        const r3 = reactive(obj);
+        const r4 = reactive(r3);
+        // 验证对象代理后,再次代理
+        console.log(r3 === r4);
+
+
+    </script>
+</body>
+</html>
