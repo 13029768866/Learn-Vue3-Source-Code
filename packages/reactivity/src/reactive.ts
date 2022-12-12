@@ -5,8 +5,20 @@ const proxyMap = new WeakMap();
 
 // 所有响应式标识(以__v_开头)
 export const enum ReactiveFlags {
-    IS_REACTIVE = '__v_isReactive',
+    SKIP = '__v_skip',               // 跳过标识
+    IS_REACTIVE = '__v_isReactive',  // 响应式标识
+    IS_READONLY = '__v_isReadonly',  // 只读标识
+    IS_SHALLOW = '__v_isShallow',    // 浅层标识
+    RAW = '__v_raw'                  // 原始标识
 }
+export interface Target {
+    [ReactiveFlags.SKIP]?: boolean
+    [ReactiveFlags.IS_REACTIVE]?: boolean
+    [ReactiveFlags.IS_READONLY]?: boolean
+    [ReactiveFlags.IS_SHALLOW]?: boolean
+    [ReactiveFlags.RAW]?: any
+}
+
 
 export function reactive(target) {
     // reactive基于proxy代理对象,proxy的target必须是一个对象
@@ -33,3 +45,22 @@ export function reactive(target) {
     proxyMap.set(target, proxy);
     return proxy;
 }
+
+export function createRactiveObject(
+    target: Target,
+    isRedonly: boolean,
+    baseHandlers: ProxyHandler<any>,
+    collectionHandlers: ProxyHandler<any>,
+    proxyMap: WeakMap<Target, any>
+) {
+
+}
+
+/* 标识属性判断方法start */
+export function isRedonly(value: unknown): boolean {
+    return !!(value && (value as Target)[ReactiveFlags.IS_READONLY])
+}
+export function isShallow(value: unknown):boolean {
+    return !!(value && (value as Target)[ReactiveFlags.IS_SHALLOW])
+}
+/* 类型判断方法end */
